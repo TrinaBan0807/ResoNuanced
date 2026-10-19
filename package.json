@@ -1,1 +1,0 @@
-{"name":"resonuanced-beta07","private":true,"version":"0.7.0","type":"module","scripts":{"check":"node --check app.js && node --check api/analyze.js"}}
