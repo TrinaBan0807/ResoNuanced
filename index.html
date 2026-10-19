@@ -15,17 +15,17 @@
 <label for="body">Tell us a little more</label><textarea id="body" minlength="20" maxlength="5000" required placeholder="What happened? Why do you want to discuss it?"></textarea>
 <label for="category">Topic</label><select id="category"><option>Culture</option><option>Media literacy</option><option>Narrative</option><option>Research</option></select>
 <label for="source">Link to original post (optional)</label><input id="source" type="url" maxlength="500" placeholder="https://…">
-<label for="discussionMedia">Attach a photo, audio or video (optional, max 10 MB)</label><input id="discussionMedia" type="file" accept="image/jpeg,image/png,image/webp,audio/mpeg,audio/mp4,audio/wav,audio/ogg,video/mp4,video/webm">
+<label for="discussionMedia">Attach a photo, audio or video (optional, max 10 MB)</label><input id="discussionMedia" type="file" accept="image/jpeg,image/png,image/webp,audio/mpeg,audio/mp4,audio/wav,audio/ogg,video/mp4,video/webm"><div id="discussionPreview" class="hidden"></div>
 <div class="actions"><button class="button primary" type="submit">Publish discussion</button><button class="button light" type="button" id="cancelNew">Cancel</button></div></form>
 <div id="discussionList" class="cards" aria-live="polite"><p>Loading discussions…</p></div>
 <article id="thread" class="panel thread hidden" aria-live="polite"></article></section>
 <section id="understand" class="section"><p class="kicker">Think it through</p><h2>Understand a post with AI</h2><p>Paste some words, upload a picture or video, and get a simple explanation. This is a starting point, not a fact-check.</p>
 <div class="panel"><label for="claim">What would you like to understand?</label><textarea id="claim" placeholder="Paste a post, comment, news headline, or question…"></textarea>
-<label for="investigateMedia">Add an image or video (optional, max 10 MB)</label><input id="investigateMedia" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm">
+<label for="investigateMedia">Add an image or video (optional, max 10 MB)</label><input id="investigateMedia" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"><div id="investigatePreview" class="hidden"></div>
 <label for="videoLink">Or paste a public video link (optional)</label><input id="videoLink" type="url" placeholder="https://…">
 <details><summary>Add more background (optional)</summary><label for="context">What else should we know?</label><textarea id="context" placeholder="For example: This is a joke between friends."></textarea></details>
 <button class="button primary" id="aiAnalyze" type="button">✨ Help me understand</button>
-<p class="fine">AI can make mistakes. Images and sampled video frames are sent to Gemini for analysis. Video sound is not analysed. Don't upload private content or images without permission.</p><div id="aiResult" role="status" aria-live="polite"></div></div></section>
+<p class="fine">AI can make mistakes. Images and sampled video frames are sent for analysis. Video sound is not analysed. Don't upload private content or images without permission.</p><div id="aiResult" role="status" aria-live="polite"></div></div></section>
 <section class="section rules"><h2>A kinder way to talk online</h2><div class="rulegrid"><div><strong>💬 Be respectful</strong><p>Disagree with ideas, not people's identities.</p></div><div><strong>🔎 Stay curious</strong><p>Ask questions. Check the original source.</p></div><div><strong>🛡️ Protect privacy</strong><p>Don't share addresses, phone numbers or personal information.</p></div></div><p class="fine">This limited review release is for ages 13+. Visitors aged 12 can read with adult guidance, but posting is not available to them until age-appropriate protections are implemented. Reports are submitted for review; there is no automatic moderation. Do not rely on this platform for emergencies.</p></section>
 </main><footer><div class="container">ResoNuanced · Different views. Better conversations. · Review Release 0.8 · AI explanations are not verified verdicts.</div></footer>
 <div id="toast" role="status" aria-live="polite" class="toast hidden"></div>
