@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Respond with Empathy | ResoNuanced</title><meta name="description" content="Find a respectful way to respond to harmful online comments.">
+<link rel="stylesheet" href="/style.css">
+<style>
+.respond-shell{max-width:800px;margin:0 auto;padding:46px 0 70px}.respond-panel{display:grid;gap:10px}.respond-panel textarea{min-height:140px}.respond-panel select{max-width:360px}.respond-output{margin-top:22px}.respond-output section{padding:16px 0;border-bottom:1px solid #b6b4c433}.respond-output h3{margin:0 0 7px}.respond-output p{white-space:pre-wrap;margin:0}.respond-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.respond-hint{font-size:14px;opacity:.8}.respond-alert{font-weight:650}.respond-status{min-height:24px}
+</style></head><body>
+<header><div class="container head"><a class="brand" href="/">Reso<span>Nuanced</span></a><div class="session"><a class="button light" href="/">← Home</a><button id="themeToggle" class="subtle" type="button">🌙 Dark mode</button></div></div></header>
+<main class="container respond-shell"><p class="kicker">A kinder way to respond</p><h1>Respond with Empathy</h1><p>Received an offensive or upsetting comment? Explore a calm, constructive response—or learn when it is safer not to engage.</p>
+<div class="panel respond-panel"><label for="comment">Paste the comment</label><textarea id="comment" maxlength="4000" placeholder="Paste the comment you want help responding to…" required></textarea>
+<label for="context">Additional context (optional)</label><textarea id="context" maxlength="700" placeholder="For example: This is a public reply to a joke, not a direct threat."></textarea>
+<label for="style">Choose a response style</label><select id="style"><option value="empathetic">Empathetic and calm</option><option value="educational">Educational and informative</option><option value="assertive">Firm and respectful</option></select>
+<div><button id="generate" class="button primary" type="button">✨ Suggest a response</button></div>
+<p class="fine">AI can make mistakes. Don't paste private details or threats containing identifying information. For immediate danger, contact local emergency services.</p>
+<p id="status" class="respond-status" role="status" aria-live="polite"></p><div id="output" class="respond-output" aria-live="polite" hidden>
+<section><h3>What this might mean</h3><p id="assessment"></p></section>
+<section><h3>Suggested response</h3><p id="reply"></p></section>
+<section><h3>Why this approach</h3><p id="reason"></p></section>
+<section><h3>When not to reply</h3><p id="saferAction"></p></section>
+<div class="respond-actions"><button id="copy" class="button light" type="button">Copy suggested reply</button><button id="retry" class="button light" type="button">Try another style</button></div>
+</div></div></main><footer><div class="container">ResoNuanced · Different views. Better conversations. · AI suggestions are not moderation decisions.</div></footer>
+<script>
+const el=id=>document.getElementById(id);
+function setTheme(theme){document.documentElement.dataset.theme=theme;el('themeToggle').textContent=theme==='dark'?'☀️ Light mode':'🌙 Dark mode';try{localStorage.setItem('resonuanced-theme',theme)}catch{}}
+let theme='light';try{theme=localStorage.getItem('resonuanced-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch{}setTheme(theme);
+el('themeToggle').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+let lastReply='';
+async function generate(){const comment=el('comment').value.trim();if(comment.length<3){el('status').textContent='Please paste a comment first.';return}
+ const button=el('generate');button.disabled=true;el('output').hidden=true;el('status').textContent='Thinking about a constructive response…';
+ try{const response=await fetch('/api/respond',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({comment,context:el('context').value.trim(),style:el('style').value})});
+ const data=await response.json().catch(()=>({error:'The server returned an invalid response.'}));if(!response.ok)throw Error(data.error||'Unable to generate a response.');
+ const result=data.result||{};lastReply=result.reply||'';el('assessment').textContent=result.assessment||'Not enough context.';
+ el('reply').textContent=lastReply||'A reply is not recommended for this situation.';el('reason').textContent=result.reason||'Consider the context and your safety.';
+ el('saferAction').textContent=result.safer_action||'You can choose not to engage, or use the platform’s reporting tools.';
+ el('copy').disabled=!lastReply;el('output').hidden=false;el('status').textContent='Suggestion ready. Review and edit before using.';
+ }catch(e){el('status').textContent='Suggestion unavailable: '+e.message}finally{button.disabled=false}}
+el('generate').onclick=generate;el('retry').onclick=generate;
+el('copy').onclick=async()=>{if(!lastReply)return;try{await navigator.clipboard.writeText(lastReply);el('status').textContent='Response copied. Review before posting.'}catch{el('status').textContent='Copy unavailable. Please select the suggested response manually.'}};
+</script></body></html>
